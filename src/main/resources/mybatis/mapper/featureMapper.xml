@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.feature.mapper.FeatureMapper">
+
+    <select id="getFeature" parameterType="int" resultType="feature">
+        select *
+        from feature
+        where featureId = #{featureId}
+    </select>
+
+    <select id="readFeatures" resultType="feature">
+        select *
+        from feature f
+        where f.featureId in (
+            select cf.featureId
+            from cafeFeature cf
+            where cafeId = #{cafeId}
+            )
+    </select>
+
+</mapper>

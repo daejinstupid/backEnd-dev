@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.cafeFeature.mapper.CafeFeatureMapper">
+    <!-- 좌석 -->
+    <insert id="insertCafeFeatures" parameterType="int">
+        INSERT INTO cafeFeature (cafeId, featureId, createDate, modifyDate)
+        VALUES (#{cafeId}, #{featureId}, now(), now())
+    </insert>
+
+    <select id="findFeatureIdByCafeId" parameterType="int">
+        select featureId
+        from cafeFeature
+        where cafeId = #{cafeId}
+    </select>
+
+    <delete id="deleteFeatures">
+        DELETE FROM cafeFeature
+        WHERE cafeId = #{cafeId}
+    </delete>
+
+</mapper>

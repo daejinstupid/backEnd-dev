@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.reservation.reservation.mapper.ReservationMapper">
+
+    <insert id="createReservation" parameterType="reservation">
+
+        INSERT INTO reservation (tableId, cafeId, userId, reserveStart, reserveEnd, personCnt, status, reserveDate, createDate)
+        VALUES (#{tableId}, #{cafeId}, #{userId}, #{reserveStart}, #{reserveEnd}, #{personCnt}, #{status}, #{reserveDate}, now())
+    </insert>
+
+    <select id="getOneTableRev" resultType="reservation">
+        SELECT *
+        FROM reservation
+        WHERE reserveDate = #{reserveDate} AND tableId = #{tableId} AND status IN ('A','P','F')
+    </select>
+
+    <select id="getOneCafeOneDayRev" resultType="reservation">
+        SELECT *
+        FROM reservation
+        WHERE reserveDate = #{date} AND cafeId = #{cafeId} AND status IN ('A','P','F')
+        ORDER BY userId, tableId, reserveStart
+    </select>
+
+    <select id="getOneCafeBeforeRev" resultType="reservation">
+        SELECT *
+        FROM reservation
+        WHERE cafeId = #{cafeId} AND status = 'A'
+        ORDER BY createDate desc, userId, tableId, reserveStart
+    </select>
+
+    <select id="getOneCafeIngRev" resultType="reservation">
+        SELECT *
+        FROM reservation
+        WHERE cafeId = #{cafeId} AND status = 'P'
+        ORDER BY reserveDate, userId, tableId, reserveStart
+    </select>
+
+    <update id="cofirmReservation" parameterType="int">
+        UPDATE reservation
+        SET status = 'P', modifyDate = now()
+        WHERE reservationId = #{reservationId}
+    </update>
+
+    <select id="getRevByRevId" resultType="reservation">
+        SELECT *
+        FROM reservation
+        WHERE reservationId = #{reservationId}
+    </select>
+
+    <update id="cancleReservation">
+        UPDATE reservation
+        SET status = 'N', cancleReasonId = #{cancleReasonId}, modifyDate = now()
+        WHERE reservationId = #{reservationId}
+    </update>
+
+    <update id="finishReservation">
+        UPDATE reservation
+        SET status = 'F', modifyDate = now()
+        WHERE reservationId = #{reservationId}
+    </update>
+
+    <select id="getFinReservations" resultType="reservation">
+        select *
+        from reservation
+        where userId =  #{userId} and status in ('N','F')
+        order by createDate DESC, reserveStart
+    </select>
+
+    <select id="getProceedReservations" resultType="reservation">
+        select *
+        from reservation
+        where userId =  #{userId} and status in ('A','P')
+        order by createDate DESC, reserveStart
+    </select>
+
+    <select id="getReservationRecent" resultType="reservation">
+        select *
+        from (
+                 select *
+                 from reservation
+                 where userid = #{userId}
+                 order by createDate DESC, TO_DATE(reserveStart, 'HH24:MI') ASC
+             )
+        where rownum = 1
+    </select>
+
+    <select id="getReservationId" resultType="int">
+        select reservationId
+        from(
+            select reservationId
+            from reservation
+            where userId = #{userId}
+              and reserveDate = #{reserveDate}
+              and reserveStart = #{reserveStart}
+            order by createDate DESC
+            )
+        where rownum = 1
+    </select>
+
+</mapper>

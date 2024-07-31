@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.cafeTable.mapper.CafeTableMapper">
+
+    <select id="getOneCafeTable" parameterType="int" resultType="cafeTable">
+        select *
+        from cafeTable
+        where tableId = #{tableId}
+    </select>
+
+    <select id="getTableInfo" resultType="com.example.demo.cafeTable.dto.CafeTableDto$CafeTableInfoResponseDto">
+        select tableId, tableNumber, tableType
+        from cafeTable
+        where cafeId = #{cafeId} AND tableType = #{tableType}
+    </select>
+
+    <insert id="insertCafeTable">
+        INSERT INTO cafeTable (cafeId, tableType, tableNumber, status, createDate, modifyDate)
+        VALUES (#{cafeId}, #{tableType}, #{tableNumber}, 'N', now(), now())
+    </insert>
+
+    <select id="getTableInfoOne">
+        SELECT *
+        FROM (
+                 SELECT *
+                 FROM cafeTable
+                 WHERE cafeId = #{cafeId}
+                 ORDER BY tableId DESC
+             )
+        WHERE ROWNUM = 1
+    </select>
+
+    <delete id="deleteCafeTableOne">
+        delete from cafeTable where tableId = #{tableId}
+    </delete>
+
+
+</mapper>
