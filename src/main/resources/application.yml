@@ -36,4 +36,10 @@ spring:
   profiles:
     active: secret
 
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.web.servlet: DEBUG
+    org.springframework.web.servlet.mvc.method.annotation: DEBUG
+
 

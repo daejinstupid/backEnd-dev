@@ -32,7 +32,7 @@ public class UserReservationController {
         ReservationDto.UserReservationResponseDto reservationIds = reservationService.createReservation(userReservationRequestDto,username);
         return ResponseEntity.ok().body(ApiResponse.createSuccess(reservationIds, CustomResponseCode.SUCCESS));
     }
-//    @CrossOrigin(origins = "http://localhost:3000")
+//    @CrossOrigin(origins = "http://localhost:8080")
 
     @GetMapping("/time/{date}/{tableId}")
     public ResponseEntity<ApiResponse<List<ReservationDto.TimeSlotResponseDto>>> getRevTimeInfo(@PathVariable String date, @PathVariable int tableId, Authentication authentication){
@@ -44,7 +44,7 @@ public class UserReservationController {
     }
 
     // 예약할 카페 이름&테이블 조회
-//    @CrossOrigin(origins = "http://localhost:3000")
+//    @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping("/cafe/{cafeId}")
     public ResponseEntity<ApiResponse<ReservationDto.RevCafeInfoResponseDto>> getRevCafeInfo(@PathVariable int cafeId, Authentication authentication){
         log.info("예약할 카페 정보 조회 시작");

@@ -26,8 +26,8 @@
                  FROM cafeTable
                  WHERE cafeId = #{cafeId}
                  ORDER BY tableId DESC
-             )
-        WHERE ROWNUM = 1
+             ) AS derivedTable
+        LIMIT 1
     </select>
 
     <delete id="deleteCafeTableOne">

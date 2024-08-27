@@ -3,7 +3,6 @@
 <mapper namespace="com.example.demo.reservation.reservation.mapper.ReservationMapper">
 
     <insert id="createReservation" parameterType="reservation">
-
         INSERT INTO reservation (tableId, cafeId, userId, reserveStart, reserveEnd, personCnt, status, reserveDate, createDate)
         VALUES (#{tableId}, #{cafeId}, #{userId}, #{reserveStart}, #{reserveEnd}, #{personCnt}, #{status}, #{reserveDate}, now())
     </insert>
@@ -25,7 +24,7 @@
         SELECT *
         FROM reservation
         WHERE cafeId = #{cafeId} AND status = 'A'
-        ORDER BY createDate desc, userId, tableId, reserveStart
+        ORDER BY createDate DESC, userId, tableId, reserveStart
     </select>
 
     <select id="getOneCafeIngRev" resultType="reservation">
@@ -60,41 +59,33 @@
     </update>
 
     <select id="getFinReservations" resultType="reservation">
-        select *
-        from reservation
-        where userId =  #{userId} and status in ('N','F')
-        order by createDate DESC, reserveStart
+        SELECT *
+        FROM reservation
+        WHERE userId = #{userId} AND status IN ('N','F')
+        ORDER BY createDate DESC, reserveStart
     </select>
 
     <select id="getProceedReservations" resultType="reservation">
-        select *
-        from reservation
-        where userId =  #{userId} and status in ('A','P')
-        order by createDate DESC, reserveStart
+        SELECT *
+        FROM reservation
+        WHERE userId = #{userId} AND status IN ('A','P')
+        ORDER BY createDate DESC, reserveStart
     </select>
 
     <select id="getReservationRecent" resultType="reservation">
-        select *
-        from (
-                 select *
-                 from reservation
-                 where userid = #{userId}
-                 order by createDate DESC, TO_DATE(reserveStart, 'HH24:MI') ASC
-             )
-        where rownum = 1
+        SELECT *
+        FROM reservation
+        WHERE userId = #{userId}
+        ORDER BY createDate DESC, reserveStart
+            LIMIT 1
     </select>
 
     <select id="getReservationId" resultType="int">
-        select reservationId
-        from(
-            select reservationId
-            from reservation
-            where userId = #{userId}
-              and reserveDate = #{reserveDate}
-              and reserveStart = #{reserveStart}
-            order by createDate DESC
-            )
-        where rownum = 1
+        SELECT reservationId
+        FROM reservation
+        WHERE userId = #{userId} AND reserveDate = #{reserveDate} AND reserveStart = #{reserveStart}
+        ORDER BY createDate DESC
+            LIMIT 1
     </select>
 
 </mapper>
