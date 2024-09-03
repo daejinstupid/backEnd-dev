@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias alias="cafe" type="com.example.demo.cafe.entity.Cafe"/>
+        <typeAlias alias="cafeImg" type="com.example.demo.cafe.entity.CafeImg"/>
+        <typeAlias alias="users" type="com.example.demo.userss.entity.Users"/>
+        <typeAlias alias="reservation" type="com.example.demo.reservation.reservation.entity.Reservation"/>
+        <typeAlias alias="feature" type="com.example.demo.feature.entity.Feature"/>
+        <typeAlias alias="cafeFeature" type="com.example.demo.cafeFeature.entity.CafeFeature"/>
+        <typeAlias alias="cafeTable" type="com.example.demo.cafeTable.entity.CafeTable"/>
+        <typeAlias alias="cancleReason" type="com.example.demo.reservation.cancleReason.entity.CancleReason"/>
+        <typeAlias alias="pager" type="com.example.demo.cafe.dto.PageDto"/>
+        <typeAlias alias="searchDto" type="com.example.demo.search.dto.SearchRequestDto"/>
+
+<!--        dto-->
+
+    </typeAliases>
+</configuration>

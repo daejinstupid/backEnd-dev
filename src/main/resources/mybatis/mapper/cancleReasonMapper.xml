@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.reservation.cancleReason.mapper.CancleReasonMapper">
+    <select id="getOneCancleReason" resultType="cancleReason">
+        SELECT *
+        FROM cancleReason
+        WHERE cancleReasonId = #{cancleReasonId}
+    </select>
+    <select id="getReservationCancleReason" resultType="cancleReason">
+    SELECT c.cancleContent, c.cancleReasonId
+    FROM cancleReason c, reservation r
+    WHERE c.cancleReasonId = r.cancleReasonId AND reservationId = #{reservationId}
+    </select>
+</mapper>
