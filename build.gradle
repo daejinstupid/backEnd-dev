@@ -19,8 +19,6 @@ configurations {
 
 repositories {
 	mavenCentral()
-	// Uncomment the following line if you need additional repositories
-	// jcenter()
 }
 
 dependencies {
@@ -37,13 +35,12 @@ dependencies {
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.3.1'
 	testImplementation 'org.springframework.security:spring-security-test'
 
-	// JWT dependencies
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5' // For JSON parsing (optional)
+	//토큰
+	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
-	// JAXB API
-	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+	// https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
+	implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+
 }
 
 tasks.named('test') {
