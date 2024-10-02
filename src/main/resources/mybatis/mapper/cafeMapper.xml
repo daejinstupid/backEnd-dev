@@ -22,11 +22,11 @@
 
     <insert id="insertCafe" parameterType="cafe">
         INSERT INTO cafe (
-            cafename, cafetype, starttime, endtime, address, longtitude, latitude,
+            cafename, cafetype, starttime, endtime, address, longitude, latitude,
             cafetel, study, userid, caferepimg, cafeRepImgMine, studyImg, StudyImgMine ,createdate, modifydate)
         VALUES (
                    #{cafeName}, #{cafeType}, #{startTime, jdbcType=VARCHAR}, #{endTime, jdbcType=VARCHAR},
-                   #{address}, #{longtitude}, #{latitude}, #{cafeTel}, #{study}, #{userId},
+                   #{address}, #{longitude}, #{latitude}, #{cafeTel}, #{study}, #{userId},
                    #{cafeRepImg, jdbcType=BLOB}, #{cafeRepImgMine, jdbcType=VARCHAR}, #{studyImg, jdbcType=BLOB}, #{studyImgMine, jdbcType=VARCHAR}, now(), now())
     </insert>
 

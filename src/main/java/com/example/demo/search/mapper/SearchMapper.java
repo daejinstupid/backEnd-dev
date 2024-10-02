@@ -15,11 +15,11 @@ import java.util.List;
 public interface SearchMapper {
     int search(SearchDto.SearchRequestDto searchRequestDto);
     int searchWordCount(String word);
-    int searchByMyLocationCount(Double longtitude, Double latitude);
+    int searchByMyLocationCount(Double longitude, Double latitude);
     List<Cafe> searchByPage(@Param("searchRequestDto") SearchDto.SearchRequestDto searchRequestDto,@Param("pager") PageDto pager);
     List<Cafe> searchWord(String word,@Param("pager") PageDto pager);
 
-    List<Cafe> searchByMyLocation(Double longtitude, Double latitude,@Param("pager") PageDto pager);
+    List<Cafe> searchByMyLocation(Double longitude, Double latitude,@Param("pager") PageDto pager);
 
     Cafe findRepImg(int cafeId);
 

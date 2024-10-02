@@ -56,7 +56,7 @@
         c.startTime,
         c.endTime,
         c.address,
-        c.longtitude,
+        c.longitude,
         c.latitude,
         c.cafeTel,
         c.study
