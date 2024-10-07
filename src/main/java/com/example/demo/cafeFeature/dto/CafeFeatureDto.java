@@ -19,11 +19,11 @@ public class CafeFeatureDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class CafeFeatureRequestDto{
-        private Boolean comfortableSeats;
-        private Boolean hasDesserts;
-        private Boolean quiet;
-        private Boolean noMusic;
-        private Boolean sentimental;
+        private Boolean everyhour;
+        private Boolean roomforones;
+        private Boolean seminar;
+        private Boolean bakery;
+        private Boolean parkinglot;
         private Boolean hasPowerOutlets;
     }
 
