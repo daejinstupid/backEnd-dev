@@ -30,11 +30,11 @@ public class CafeFeatureServiceImpl implements CafeFeatureService {
 
         int[] featureIds = new int[]{22, 23, 24, 25, 26, 27}; // 특성 ID 배열
         boolean[] featureValues = new boolean[]{
-                cafeFeatureRequestDto.getEveryhour(),
-                cafeFeatureRequestDto.getRoomforones(),
-                cafeFeatureRequestDto.getSeminar(),
-                cafeFeatureRequestDto.getBakery(),
-                cafeFeatureRequestDto.getParkinglot(),
+                cafeFeatureRequestDto.getComfortableSeats(),
+                cafeFeatureRequestDto.getHasDesserts(),
+                cafeFeatureRequestDto.getQuiet(),
+                cafeFeatureRequestDto.getNoMusic(),
+                cafeFeatureRequestDto.getSentimental(),
                 cafeFeatureRequestDto.getHasPowerOutlets()
         };
 

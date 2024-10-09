@@ -522,10 +522,23 @@ public class ReservationServiceImpl implements ReservationService {
 
         CafeTable cafeTable = cafeTableMapper.getOneCafeTable(reservation.getTableId());
         String tableNumber = cafeTable.getTableNumber();
-        Cafe cafe = cafeMapper.getOneCafe(reservation.getCafeId());
-        String cafeRepImg = Base64.getEncoder().encodeToString(cafe.getCafeRepImg());
 
-        return new ReservationDto.UserReadFinishReservResponseDto(reservation,reservationIds,tableNumber,cafe.getCafeName(), cafeRepImg);
+        Cafe cafe = cafeMapper.getOneCafe(reservation.getCafeId());
+
+        // Null 체크 추가
+        String cafeRepImg = "";
+        String cafeName = "";
+        if (cafe != null) {
+            cafeRepImg = Base64.getEncoder().encodeToString(cafe.getCafeRepImg());
+            cafeName = cafe.getCafeName();
+        } else {
+            // cafe가 null일 경우 기본 이미지 설정 또는 예외 처리
+            cafeRepImg = "default_image_path"; // 기본 이미지 경로를 지정하거나 null로 두세요.
+            cafeName = "Unknown Cafe"; // 또는 기본 이름 지정
+        }
+
+        return new ReservationDto.UserReadFinishReservResponseDto(reservation, reservationIds, tableNumber, cafeName, cafeRepImg);
     }
+
 
 }
