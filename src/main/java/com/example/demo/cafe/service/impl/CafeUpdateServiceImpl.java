@@ -79,7 +79,7 @@ public class CafeUpdateServiceImpl implements CafeUpdateService {
     @Override
     public CafeUpdateDto.CafeLocationResponseDto cafeAddressUpdate(CafeUpdateDto.CafeLocationRequestDto cafeAddress, String userName) {
         int cafeId = cafeImgMapper.findCafeIdByUserName(userName);
-        cafeUpdateMapper.updateCafeAddress(cafeAddress.getAddress(), cafeAddress.getLongtitude(), cafeAddress.getLatitude(), cafeId);
+        cafeUpdateMapper.updateCafeAddress(cafeAddress.getAddress(), cafeAddress.getLongitude(), cafeAddress.getLatitude(), cafeId);
 
         Cafe cafe = cafeMapper.getOneCafe(cafeId);
         return new CafeUpdateDto.CafeLocationResponseDto(cafe);

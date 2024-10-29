@@ -49,7 +49,7 @@ public class SearchServiceImpl implements SearchService {
             }
             cafedto.setDistance(6371 * Math.acos(Math.cos(searchRequestDto.getLatitude()/57.29577951)
                     * Math.cos(cafedto.getLatitude()/57.29577951)
-                    * Math.cos(c.getLongtitude()/57.29577951 - searchRequestDto.getLongtitude()/57.29577951)
+                    * Math.cos(c.getLongitude()/57.29577951 - searchRequestDto.getLongitude()/57.29577951)
                     + Math.sin(searchRequestDto.getLatitude()/57.29577951) * Math.sin(c.getLatitude()/57.29577951)));
             newList.add(cafedto);
         }
@@ -90,10 +90,10 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public SearchDto.SearchResponseDto searchByMyLocation(Double longtitude, Double latitude,int pageNo) {
-        int count = searchMapper.searchByMyLocationCount(longtitude, latitude);
+    public SearchDto.SearchResponseDto searchByMyLocation(Double longitude, Double latitude,int pageNo) {
+        int count = searchMapper.searchByMyLocationCount(longitude, latitude);
         PageDto pager = new PageDto(5, 5, count, pageNo);
-        List<Cafe> cafes = searchMapper.searchByMyLocation(longtitude, latitude, pager);
+        List<Cafe> cafes = searchMapper.searchByMyLocation(longitude, latitude, pager);
         //임시//
         List<CafeDto.CafeSearchResponseDto> newList = new ArrayList<>();
 

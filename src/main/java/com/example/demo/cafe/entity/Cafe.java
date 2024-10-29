@@ -18,7 +18,7 @@ public class Cafe {
     private String startTime;
     private String endTime;
     private String address;
-    private Double longtitude; //경도
+    private Double longitude; //경도
     private Double latitude; //위도
     private String cafeTel;
     private String study;
