@@ -15,6 +15,7 @@ import com.example.demo.reservation.reservation.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Delete;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +36,29 @@ public class CafeController {
     private final CafeImgService cafeImgService;
     private final CafeFeatureService cafeFeatureService;
     private final ReservationService reservationService;
+
+    @GetMapping("/user/cafeId")
+    public ResponseEntity<?> getCafeId(Authentication authentication) {
+        try {
+            // 현재 로그인한 사용자의 이름 가져오기
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String userName = userDetails.getUsername();
+
+            // userName을 통해 cafeId 조회
+            Long cafeId = cafeService.findCafeIdByUserName(userName);
+            log.info("조회된 cafeId: " + cafeId);
+
+            if (cafeId != null) {
+                return ResponseEntity.ok(cafeId);
+            } else {
+                log.error("해당 사용자에 대한 cafeId를 찾을 수 없습니다. 사용자 이름: " + userName);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 사용자에 대한 cafeId를 찾을 수 없습니다.");
+            }
+        } catch (Exception e) {
+            log.error("cafeId 조회 중 오류 발생: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생: " + e.getMessage());
+        }
+    }
 
     @PostMapping("/manager/cafe/register")
     public ResponseEntity<ApiResponse<String>> registerCafe (

@@ -22,7 +22,7 @@ public class Reservation extends BaseEntity {
     private int personCnt;
     private String status;
     private String reserveDate;
-    private String cancleReasonId;
+    private String cancelReasonId;
 
 
 

@@ -16,7 +16,7 @@ public enum CustomResponseCode {
     NO_RESERVATION_TIME(false, 2004, "카페 예약이 불가능한 시간입니다."),
     NO_CHECK_DATE(false, 2005, "조회가 불가능한 날짜입니다."),
     NO_RESERVATION(false, 2006, "해당 예약은 존재하지 않습니다."),
-    NO_CANCLEREASON(false, 2007, "잘못된 카페 취소 사유입니다."),
+    NO_CANCELREASON(false, 2007, "잘못된 카페 취소 사유입니다."),
     NO_CAFE_MANAGER(false, 2008, "해당 점주의 카페가 아닙니다."),
     IMG_EXTRACT_ERROR(false, 2009, "이미지 MIME 타입 추출 중 오류 발생."),
     NO_CAFEIMG_DATA_READ(false,2010,"이미지 데이터를 읽을 수 없습니다."),
@@ -39,7 +39,7 @@ public enum CustomResponseCode {
     IMG_OVER_SELECT(false,5000,"최대 5장의 이미지만 업로드 가능합니다"),
     CREATE_RESERVATION_FAILED(false, 5001, "카페 예약 생성을 실패하였습니다."),
     COFIRM_RESERVATION_FAILED(false, 5002, "카페 예약 확정을 실패하였습니다."),
-    CANCLE_RESERVATION_FAILED(false, 5003, "카페 예약 취소를 실패하였습니다."),
+    CANCEL_RESERVATION_FAILED(false, 5003, "카페 예약 취소를 실패하였습니다."),
     CAFE_OPERATOR_TIME_OVER(false,5004,"카페 종료 시간은 시작 시간 이후여야 합니다"),
     CAFE_OPERATOR_TIME_MISMATCH(false,5005,"카페 운영시간 형식이 맞지 않습니다"),
     CAFE_OPERATOR_TIME_EQUALS(false,5006,"카페 시작시간과 종료시간이 같습니다.");

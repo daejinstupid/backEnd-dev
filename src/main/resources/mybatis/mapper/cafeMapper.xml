@@ -52,5 +52,11 @@
         delete from cafe where cafeId = #{cafeId}
     </delete>
 
-    <select id=""></select>
+    <select id="findCafeIdByUserName" parameterType="String" resultType="Long">
+        SELECT c.cafeId
+        FROM cafe c
+                 JOIN users u ON c.userId = u.userId
+        WHERE u.userName = #{userName}
+    </select>
+
 </mapper>

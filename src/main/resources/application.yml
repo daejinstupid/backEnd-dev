@@ -41,5 +41,3 @@ logging:
     org.springframework.web: DEBUG
     org.springframework.web.servlet: DEBUG
     org.springframework.web.servlet.mvc.method.annotation: DEBUG
-
-

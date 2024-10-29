@@ -16,7 +16,7 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("http://localhost:3000","http://localhost:3004","http://27.96.134.5","https://jieunyes.shop","https://www.jieunyes.shop"));
+        config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:3004","http://27.96.134.5","https://jieunyes.shop","https://www.jieunyes.shop"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("*"));

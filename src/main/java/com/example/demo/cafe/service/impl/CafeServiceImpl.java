@@ -150,4 +150,9 @@ public class CafeServiceImpl implements CafeService {
         cafeMapper.cafeDelete(cafeId);
     }
 
+    @Override
+    public Long findCafeIdByUserName(String userName) {
+        return cafeMapper.findCafeIdByUserName(userName);
+    }
+
 }
