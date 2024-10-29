@@ -26,7 +26,7 @@ public class SearchDto {
         private String endTime;
         private String preferSeat;
         private String word;
-        private Double longtitude;
+        private Double longitude;
         private Double latitude;
     }
 

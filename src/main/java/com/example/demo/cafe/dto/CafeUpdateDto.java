@@ -40,12 +40,12 @@ public class CafeUpdateDto {
     @AllArgsConstructor
     public static class CafeLocationRequestDto{
         private String address;
-        private Double longtitude;
+        private Double longitude;
         private Double latitude;
 
         public CafeLocationRequestDto(Cafe cafe){
             this.address = cafe.getAddress();
-            this.longtitude = cafe.getLongtitude();
+            this.longitude = cafe.getLongitude();
             this.latitude = cafe.getLatitude();
         }
     }
@@ -56,13 +56,13 @@ public class CafeUpdateDto {
     public static class CafeLocationResponseDto{
         private int cafeId;
         private String address;
-        private Double longtitude;
+        private Double longitude;
         private Double latitude;
 
         public CafeLocationResponseDto(Cafe cafe){
             this.cafeId = cafe.getCafeId();
             this.address = cafe.getAddress();
-            this.longtitude = cafe.getLongtitude();
+            this.longitude = cafe.getLongitude();
             this.latitude = cafe.getLatitude();
         }
     }

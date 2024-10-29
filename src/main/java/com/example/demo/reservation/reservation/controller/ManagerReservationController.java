@@ -69,14 +69,14 @@ public class ManagerReservationController {
 
     }
 
-    @PatchMapping("/cancle")
-    public ResponseEntity<ApiResponse<Boolean>> cancleReservation(@RequestBody ReservationDto.CancleReservationRequestDto cancleReservationRequestDto, Authentication authentication) {
+    @PatchMapping("/cancel")
+    public ResponseEntity<ApiResponse<Boolean>> cancelReservation(@RequestBody ReservationDto.CancelReservationRequestDto cancelReservationRequestDto, Authentication authentication) {
         log.info("예약 취소 시작");
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String userName = userDetails.getUsername();
 
-        Boolean check = reservationService.changeCancleReservation(cancleReservationRequestDto, userName);
+        Boolean check = reservationService.changeCancelReservation(cancelReservationRequestDto, userName);
         return ResponseEntity.ok().body(ApiResponse.createSuccess(check, CustomResponseCode.SUCCESS));
 
     }

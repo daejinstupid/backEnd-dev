@@ -25,5 +25,5 @@ public interface CafeMapper {
 
     void cafeDelete(int userId);
 
-
+    Long findCafeIdByUserName(String userName);
 }

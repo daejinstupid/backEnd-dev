@@ -10,8 +10,8 @@ import com.example.demo.cafeTable.mapper.CafeTableMapper;
 import com.example.demo.cafeTable.service.CafeTableService;
 import com.example.demo.constant.enums.CustomResponseCode;
 import com.example.demo.constant.exception.GeneralException;
-import com.example.demo.reservation.cancleReason.entity.CancleReason;
-import com.example.demo.reservation.cancleReason.mapper.CancleReasonMapper;
+import com.example.demo.reservation.cancelReason.entity.CancelReason;
+import com.example.demo.reservation.cancelReason.mapper.CancelReasonMapper;
 import com.example.demo.reservation.reservation.dto.ReservationDto;
 import com.example.demo.reservation.reservation.entity.Reservation;
 import com.example.demo.reservation.reservation.mapper.ReservationMapper;
@@ -21,7 +21,6 @@ import com.example.demo.userss.mapper.UsersMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +40,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final UsersMapper usersMapper;
     private final CafeTableService cafeTableService;
     private final CafeImgService cafeImgService;
-    private final CancleReasonMapper cancleReasonMapper;
+    private final CancelReasonMapper cancelReasonMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -306,18 +305,18 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean changeCancleReservation(ReservationDto.CancleReservationRequestDto requestDto, String userName) {
+    public Boolean changeCancelReservation(ReservationDto.CancelReservationRequestDto requestDto, String userName) {
 
         int cafeId = getCafIdByUsername(userName);
         //int cafeId = 22; // 점주 1명에 여러 카페 등록이라 임시
 
         List<Integer> reservationIds = requestDto.getReservationIds();
 
-        String cancleReasonId = requestDto.getCancleReasonId();
-        CancleReason cancleReason = cancleReasonMapper.getOneCancleReason(cancleReasonId);
+        String cancelReasonId = requestDto.getCancelReasonId();
+        CancelReason cancelReason = cancelReasonMapper.getOneCancelReason(cancelReasonId);
 
-        if (cancleReason == null) {
-            throw new GeneralException(CustomResponseCode.NO_CANCLEREASON);
+        if (cancelReason == null) {
+            throw new GeneralException(CustomResponseCode.NO_CANCELREASON);
         }
         for (Integer reservationId : reservationIds) {
             Reservation temp = reservationMapper.getRevByRevId(reservationId);
@@ -330,11 +329,11 @@ public class ReservationServiceImpl implements ReservationService {
             }
 
             try{
-                reservationMapper.cancleReservation(reservationId, cancleReasonId);
+                reservationMapper.cancelReservation(reservationId, cancelReasonId);
                 log.info(reservationId+"가 변경됨");
             } catch (Exception e) {
                 log.info(e.getMessage());
-                throw new GeneralException(CustomResponseCode.CANCLE_RESERVATION_FAILED);
+                throw new GeneralException(CustomResponseCode.CANCEL_RESERVATION_FAILED);
             }
         }
         return true;
@@ -409,14 +408,14 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public ReservationDto.CancleReasonResponDto cancleReason(int reservationId, String userName) {
-        CancleReason cancleReason = cancleReasonMapper.getReservationCancleReason(reservationId);
+    public ReservationDto.CancelReasonResponDto cancelReason(int reservationId, String userName) {
+        CancelReason cancelReason = cancelReasonMapper.getReservationCancelReason(reservationId);
         Users user = usersMapper.getOneUsers(userName);
         Reservation reservation = reservationMapper.getRevByRevId(reservationId);
         int cafeId = reservation.getCafeId();
         Cafe cafe = cafeMapper.getOneCafe(cafeId);
 
-        return new ReservationDto.CancleReasonResponDto(reservationId, cancleReason.getCancleContent(),cafe.getCafeTel() ,user.getUserRealName());
+        return new ReservationDto.CancelReasonResponDto(reservationId, cancelReason.getCancelContent(),cafe.getCafeTel() ,user.getUserRealName());
     }
 
     // 토큰 값으로 cafeId 가져오기
@@ -522,10 +521,23 @@ public class ReservationServiceImpl implements ReservationService {
 
         CafeTable cafeTable = cafeTableMapper.getOneCafeTable(reservation.getTableId());
         String tableNumber = cafeTable.getTableNumber();
-        Cafe cafe = cafeMapper.getOneCafe(reservation.getCafeId());
-        String cafeRepImg = Base64.getEncoder().encodeToString(cafe.getCafeRepImg());
 
-        return new ReservationDto.UserReadFinishReservResponseDto(reservation,reservationIds,tableNumber,cafe.getCafeName(), cafeRepImg);
+        Cafe cafe = cafeMapper.getOneCafe(reservation.getCafeId());
+
+        // Null 체크 추가
+        String cafeRepImg = "";
+        String cafeName = "";
+        if (cafe != null) {
+            cafeRepImg = Base64.getEncoder().encodeToString(cafe.getCafeRepImg());
+            cafeName = cafe.getCafeName();
+        } else {
+            // cafe가 null일 경우 기본 이미지 설정 또는 예외 처리
+            cafeRepImg = "default_image_path"; // 기본 이미지 경로를 지정하거나 null로 두세요.
+            cafeName = "Unknown Cafe"; // 또는 기본 이름 지정
+        }
+
+        return new ReservationDto.UserReadFinishReservResponseDto(reservation, reservationIds, tableNumber, cafeName, cafeRepImg);
     }
+
 
 }

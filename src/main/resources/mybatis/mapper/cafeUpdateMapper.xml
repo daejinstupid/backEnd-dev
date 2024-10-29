@@ -10,7 +10,7 @@
 
     <update id="updateCafeAddress">
         UPDATE cafe
-        SET address = #{address},longtitude = #{longtitude} ,latitude = #{latitude}
+        SET address = #{address},longitude = #{longitude} ,latitude = #{latitude}
         WHERE cafeId = #{cafeId}
     </update>
 

@@ -46,9 +46,9 @@
         WHERE reservationId = #{reservationId}
     </select>
 
-    <update id="cancleReservation">
+    <update id="cancelReservation">
         UPDATE reservation
-        SET status = 'N', cancleReasonId = #{cancleReasonId}, modifyDate = now()
+        SET status = 'N', cancelReasonId = #{cancelReasonId}, modifyDate = now()
         WHERE reservationId = #{reservationId}
     </update>
 

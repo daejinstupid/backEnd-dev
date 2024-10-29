@@ -30,7 +30,7 @@ public class CafeDto {
         private String startTime;
         private String endTime;
         private String address;
-        private Double longtitude;
+        private Double longitude;
         private Double latitude;
         private String cafeTel;
         private String study;
@@ -68,7 +68,7 @@ public class CafeDto {
         private String endTime;
         private String address;
         private String cafeTel;
-        private Double longtitude;
+        private Double longitude;
         private Double latitude;
         private Double distance;
 
@@ -80,7 +80,7 @@ public class CafeDto {
             this.endTime = cafe.getEndTime();
             this.address = cafe.getAddress();
             this.cafeTel = cafe.getCafeTel();
-            this.longtitude = cafe.getLongtitude();
+            this.longitude = cafe.getLongitude();
             this.latitude = cafe.getLatitude();
         }
     }
@@ -97,7 +97,7 @@ public class CafeDto {
         private String address;
         private String detailAddress;
         private String cafeTel;
-        private Double longtitude;
+        private Double longitude;
         private Double latitude;
         private String cafeRepImg;
         private String cafeRepImgMine;
@@ -110,7 +110,7 @@ public class CafeDto {
             this.address = cafe.getAddress();
             this.cafeTel = cafe.getCafeTel();
             this.userId = cafe.getUserId();
-            this.longtitude = cafe.getLongtitude();
+            this.longitude = cafe.getLongitude();
             this.latitude = cafe.getLatitude();
             this.cafeRepImg = Base64.getEncoder().encodeToString(cafe.getCafeRepImg());
             this.cafeRepImgMine =  cafe.getCafeRepImgMine();

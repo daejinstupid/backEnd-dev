@@ -102,9 +102,9 @@ public class ReservationDto {
     }
 
     @Data
-    public static class CancleReservationRequestDto {
+    public static class CancelReservationRequestDto {
         private List<Integer> reservationIds;
-        private String cancleReasonId;
+        private String cancelReasonId;
     }
 
     @Data
@@ -125,14 +125,14 @@ public class ReservationDto {
     @Data
     @NoArgsConstructor
     @Builder
-    public static class CancleReasonResponDto {
+    public static class CancelReasonResponDto {
         private int reservationId;
-        private String cancleContent;
+        private String cancelContent;
         private String cafeTel;
         private String userRealName;
-        public CancleReasonResponDto(int reservationId, String cancleContent, String cafeTel, String userRealName) {
+        public CancelReasonResponDto(int reservationId, String cancelContent, String cafeTel, String userRealName) {
             this.reservationId = reservationId;
-            this.cancleContent = cancleContent;
+            this.cancelContent = cancelContent;
             this.cafeTel = cafeTel;
             this.userRealName = userRealName;
         }

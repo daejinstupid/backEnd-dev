@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CafeUpdateMapper {
     int updateCafeTel(String cafeTel, int cafeId);
-    int updateCafeAddress(String address, double longtitude, double latitude, int cafeId);
+    int updateCafeAddress(String address, double longitude, double latitude, int cafeId);
     int updateCafeTime(String startTime, String endTime, int cafeId);
 
     int updateCafeStudy(String study, int cafeId);

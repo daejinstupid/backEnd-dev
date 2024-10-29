@@ -10,7 +10,7 @@
         <typeAlias alias="feature" type="com.example.demo.feature.entity.Feature"/>
         <typeAlias alias="cafeFeature" type="com.example.demo.cafeFeature.entity.CafeFeature"/>
         <typeAlias alias="cafeTable" type="com.example.demo.cafeTable.entity.CafeTable"/>
-        <typeAlias alias="cancleReason" type="com.example.demo.reservation.cancleReason.entity.CancleReason"/>
+        <typeAlias alias="cancelReason" type="com.example.demo.reservation.cancelReason.entity.CancelReason"/>
         <typeAlias alias="pager" type="com.example.demo.cafe.dto.PageDto"/>
         <typeAlias alias="searchDto" type="com.example.demo.search.dto.SearchRequestDto"/>
 

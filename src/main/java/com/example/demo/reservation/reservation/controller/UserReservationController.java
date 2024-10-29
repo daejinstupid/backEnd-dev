@@ -76,11 +76,11 @@ public class UserReservationController {
         ReservationDto.UserReservationStatusResponseDto userReservationStatusResponseDto = reservationService.reservationStatus(userDetails.getUsername(),reservationId);
         return ResponseEntity.ok().body(ApiResponse.createSuccess(userReservationStatusResponseDto, CustomResponseCode.SUCCESS));
     }
-    @GetMapping("/now/cancle/{reservationId}")
-    public ResponseEntity<ApiResponse<ReservationDto.CancleReasonResponDto>> readCancleReason(@PathVariable int reservationId, Authentication authentication){
+    @GetMapping("/now/cancel/{reservationId}")
+    public ResponseEntity<ApiResponse<ReservationDto.CancelReasonResponDto>> readCancelReason(@PathVariable int reservationId, Authentication authentication){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         log.info("취소 페이지 시작");
-      ReservationDto.CancleReasonResponDto cancleReasonResponseDto = reservationService.cancleReason(reservationId,userDetails.getUsername());
-        return  ResponseEntity.ok().body(ApiResponse.createSuccess(cancleReasonResponseDto, CustomResponseCode.SUCCESS));
+      ReservationDto.CancelReasonResponDto cancelReasonResponseDto = reservationService.cancelReason(reservationId,userDetails.getUsername());
+        return  ResponseEntity.ok().body(ApiResponse.createSuccess(cancelReasonResponseDto, CustomResponseCode.SUCCESS));
     }
 }

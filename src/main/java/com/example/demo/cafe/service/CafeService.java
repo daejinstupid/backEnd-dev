@@ -20,5 +20,7 @@ public interface CafeService {
     CafeDto.CafeReadSettingResponseDto findCafeSettingByUserId(String userName);
 
     void deleteCafe(String userName);
+
+    Long findCafeIdByUserName(String userName);
 }
 
