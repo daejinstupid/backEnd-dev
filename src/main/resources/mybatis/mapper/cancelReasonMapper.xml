@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.reservation.cancelReason.mapper.CancelReasonMapper">
+
+    <select id="getOneCancelReason" resultType="cancelReason">
+        SELECT *
+        FROM cancelReason
+        WHERE cancelReasonId = #{cancelReasonId}
+    </select>
+
+    <select id="getReservationCancelReason" resultType="cancelReason">
+    SELECT c.cancelContent, c.cancelReasonId
+    FROM cancelReason c, reservation r
+    WHERE c.cancelReasonId = r.cancelReasonId AND reservationId = #{reservationId}
+    </select>
+
+    <select id="getCancelReasonStatsByCafeId" parameterType="int" resultType="com.example.demo.reservation.cancelReason.dto.CancelReasonDto">
+        SELECT r.cafeId,
+               cr.cancelContent,
+               COUNT(*) AS cancelCount
+        FROM reservation r
+                 JOIN cancelReason cr ON r.cancleReasonId = cr.cancelReasonId
+        WHERE r.cafeId = #{cafeId} AND r.cancleReasonId IS NOT NULL
+        GROUP BY r.cafeId, cr.cancelContent
+        ORDER BY cancelCount DESC;
+    </select>
+
+</mapper>

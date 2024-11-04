@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.cafe.mapper.CafeUpdateMapper">
+
+    <update id="updateCafeTel">
+        UPDATE cafe
+        SET cafeTel = #{cafeTel}
+        WHERE cafeId = #{cafeId}
+    </update>
+
+    <update id="updateCafeAddress">
+        UPDATE cafe
+        SET address = #{address},longitude = #{longitude} ,latitude = #{latitude}
+        WHERE cafeId = #{cafeId}
+    </update>
+
+    <update id="updateCafeTime">
+        UPDATE cafe
+        SET startTime = #{startTime},endTime = #{endTime}
+        WHERE cafeId = #{cafeId}
+    </update>
+
+    <update id="updateCafeStudy">
+        UPDATE cafe
+        SET study = #{study}
+        WHERE cafeId = #{cafeId}
+    </update>
+
+    <update id="updateCafeStudyImg">
+        UPDATE cafe
+        SET studyImg = #{studyImg}, studyImgMine = #{studyImgMine}
+        WHERE cafeId = #{cafeId}
+    </update>
+
+    <update id="updateCafeRepImg">
+        UPDATE cafe
+        SET cafeRepImg = #{cafeRepImg}, cafeRepImgMine = #{cafeRepImgMine}
+        WHERE cafeId = #{cafeId}
+    </update>
+
+</mapper>

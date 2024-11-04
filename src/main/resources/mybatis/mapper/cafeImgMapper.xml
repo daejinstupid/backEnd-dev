@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.cafe.mapper.CafeImgMapper">
+
+    <insert id="insertCafeImg" parameterType="CafeImg">
+        INSERT INTO cafeImg (cafeId, cafeDetailImg, cafeDetailImgMine, createDate, modifyDate)
+        VALUES (#{cafeId}, #{cafeDetailImg, jdbcType=BLOB}, #{cafeDetailImgMine}, now(), now())
+    </insert>
+
+    <select id="findCafeIdByUserName" parameterType="String">
+        select cafeId
+        from cafe
+        where userId = (select userId from users where userName = #{userName})
+    </select>
+
+    <select id="findImgsByCafeId" resultType="cafeImg">
+        select *
+        from cafeImg
+        where cafeId = #{cafeId}
+    </select>
+
+</mapper>

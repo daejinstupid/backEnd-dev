@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.search.mapper.SearchMapper">
+
+    <select id="search" resultType="int">
+        SELECT count(distinct c.cafeId)
+        FROM cafe c
+        LEFT JOIN (
+        SELECT cafeId, featureId
+        from cafeFeature
+        group by cafeId, featureId
+        ) cf ON c.cafeId = cf.cafeId
+        LEFT JOIN (
+        SELECT featureId, featureName
+        from feature
+        group by featureName, featureId
+        ) f ON cf.featureId = f.featureId
+        WHERE c.study = #{studyEnable}
+        <choose>
+            <when test="cafeType != ''">
+                AND c.cafeType = #{cafeType}
+            </when>
+            <otherwise>
+                AND c.cafeType IN ('G','P')
+            </otherwise>
+        </choose>
+        <if test="preferSeat != ''">
+            AND EXISTS (
+            SELECT 1
+            FROM cafeTable ct
+            WHERE ct.cafeId = c.cafeId AND ct.tableType = #{preferSeat}
+            )
+        </if>
+        <if test="startTime != '' &amp;&amp; endTime != ''">
+            AND c.startTime &lt;= #{startTime} AND c.endTime &gt;= #{endTime}
+        </if>
+        <if test="proceed.equals('Y')">
+            AND NOW() &gt;= c.startTime AND NOW() &lt;= c.endTime
+        </if>
+        <if test=" features != null and features.size > 0 ">
+            AND f.featureName IN
+            <foreach collection="features" item="feature" open="(" separator="," close=")">
+                #{feature}
+            </foreach>
+        </if>
+        <if test="word != ''">
+            AND c.cafeName LIKE CONCAT('%', #{word}, '%')
+        </if>
+    </select>
+
+    <select id="searchByPage" resultType="cafe">
+        SELECT
+        c.cafeId,
+        c.cafeName,
+        c.cafeType,
+        c.startTime,
+        c.endTime,
+        c.address,
+        c.longitude,
+        c.latitude,
+        c.cafeTel,
+        c.study
+        FROM cafe c
+        LEFT JOIN (
+        SELECT cafeId, featureId
+        from cafeFeature
+        group by cafeId, featureId
+        ) cf ON c.cafeId = cf.cafeId
+        LEFT JOIN (
+        SELECT featureId, featureName
+        from feature
+        group by featureName, featureId
+        ) f ON cf.featureId = f.featureId
+        WHERE c.study = #{searchRequestDto.studyEnable}
+        <choose>
+            <when test="searchRequestDto.cafeType != ''">
+                AND c.cafeType = #{searchRequestDto.cafeType}
+            </when>
+            <otherwise>
+                AND c.cafeType IN ('G','P')
+            </otherwise>
+        </choose>
+        <if test="searchRequestDto.preferSeat != ''">
+            AND EXISTS (
+            SELECT 1
+            FROM cafeTable ct
+            WHERE ct.cafeId = c.cafeId AND ct.tableType = #{searchRequestDto.preferSeat}
+            )
+        </if>
+        <if test="searchRequestDto.startTime != '' &amp;&amp; searchRequestDto.endTime != ''">
+            AND c.startTime &lt;= #{searchRequestDto.startTime} AND c.endTime &gt;= #{searchRequestDto.endTime}
+        </if>
+        <if test="searchRequestDto.proceed.equals('Y')">
+            AND NOW() &gt;= c.startTime AND NOW() &lt;= c.endTime
+        </if>
+        <if test=" searchRequestDto.features != null and searchRequestDto.features.size > 0 ">
+            AND f.featureName IN
+            <foreach collection="searchRequestDto.features" item="feature" open="(" separator="," close=")">
+                #{feature}
+            </foreach>
+        </if>
+        <if test="searchRequestDto.word != ''">
+            AND c.cafeName LIKE CONCAT('%', #{searchRequestDto.word}, '%')
+        </if>
+        LIMIT #{pager.startRowNo}, #{pager.rowsPerPage}
+    </select>
+
+    <select id="searchWordCount" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM cafe
+        WHERE cafeName LIKE CONCAT('%', #{word}, '%')
+    </select>
+
+    <select id="searchByMyLocationCount" parameterType="Double" resultType="int">
+    <![CDATA[
+        SELECT count(*)
+        FROM (
+                 SELECT cafe.*,
+                        (6371 * ACOS(COS(RADIANS(#{latitude}))
+                                         * COS(RADIANS(latitude))
+                                         * COS(RADIANS(longitude) - RADIANS(#{longitude}))
+                            + SIN(RADIANS(#{latitude})) * SIN(RADIANS(latitude)))) AS distance
+                 FROM cafe
+             ) AS distances
+        ORDER BY distance
+        ]]>
+</select>
+
+    <select id="searchByMyLocation" resultType="cafe">
+        SELECT
+            resultFin.cafeId,
+            resultFin.cafeName,
+            resultFin.cafeType,
+            resultFin.startTime,
+            resultFin.endTime,
+            resultFin.address,
+            resultFin.longitude,
+            resultFin.latitude,
+            resultFin.cafeTel,
+            resultFin.study
+        FROM (
+                 SELECT
+                     cafe.*,
+                     (6371 * ACOS(COS(RADIANS(#{latitude}))
+                                      * COS(RADIANS(latitude))
+                                      * COS(RADIANS(longitude) - RADIANS(#{longitude}))
+                         + SIN(RADIANS(#{latitude})) * SIN(RADIANS(latitude)))) AS distance
+                 FROM cafe
+                 ORDER BY distance ASC
+                     LIMIT #{pager.startRowNo}, #{pager.rowsPerPage}
+             ) AS resultFin
+    </select>
+
+    <select id="findRepImg" resultType="cafe">
+        SELECT *
+        FROM cafe
+        WHERE cafeId = #{cafeId}
+    </select>
+
+</mapper>
