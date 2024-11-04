@@ -10,6 +10,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(callSuper = false)
 public class Reservation extends BaseEntity {
 
 
