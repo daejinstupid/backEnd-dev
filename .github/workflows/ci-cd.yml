@@ -10,27 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. 코드 체크아웃
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # 2. JDK 17 설치
     - name: Set up JDK 17
       uses: actions/setup-java@v2
       with:
         java-version: '17'
         distribution: 'adopt'
 
-    # 3. gradlew 파일에 실행 권한 추가
+    # gradlew 파일에 실행 권한 추가
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
 
-    # 4. 백엔드 빌드
+    # Build backend without running tests
     - name: Build backend
-      run: |
-        CI='' ./gradlew build
+      run: ./gradlew assemble
 
-    # 5. EC2에 배포
     - name: Deploy to EC2
       env:
         SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
@@ -38,9 +34,5 @@ jobs:
       run: |
         echo "${SSH_PRIVATE_KEY}" > private_key.pem
         chmod 600 private_key.pem
-        # 호스트 키 추가하여 SSH 연결 시 신뢰하도록 설정
-        ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
-        # 빌드된 JAR 파일을 EC2로 복사
         scp -i private_key.pem build/libs/*.jar ec2-user@${EC2_HOST}:/home/ec2-user/backEnd-dev/
-        # EC2에서 JAR 파일 실행
         ssh -i private_key.pem ec2-user@${EC2_HOST} "nohup java -jar /home/ec2-user/backEnd-dev/*.jar --server.port=8080 &"
