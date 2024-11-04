@@ -23,10 +23,11 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
 
-    # Build backend without running tests
+    # Build backend, continue on test failure
     - name: Build backend
-      run: ./gradlew assemble
+      run: CI='' ./gradlew build
 
+    # Deploy to EC2
     - name: Deploy to EC2
       env:
         SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
@@ -34,5 +35,8 @@ jobs:
       run: |
         echo "${SSH_PRIVATE_KEY}" > private_key.pem
         chmod 600 private_key.pem
-        scp -i private_key.pem build/libs/*.jar ec2-user@${EC2_HOST}:/home/ec2-user/backEnd-dev/
-        ssh -i private_key.pem ec2-user@${EC2_HOST} "nohup java -jar /home/ec2-user/backEnd-dev/*.jar --server.port=8080 &"
+        # Add EC2 host to known_hosts to bypass host verification
+        mkdir -p ~/.ssh
+        ssh-keyscan -H "${EC2_HOST}" >> ~/.ssh/known_hosts
+        scp -i private_key.pem -o StrictHostKeyChecking=no build/libs/*.jar ec2-user@${EC2_HOST}:/home/ec2-user/backEnd-dev/
+        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} "nohup java -jar /home/ec2-user/backEnd-dev/*.jar --server.port=8080 &"
