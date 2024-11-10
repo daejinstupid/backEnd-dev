@@ -77,7 +77,7 @@
         FROM reservation
         WHERE userId = #{userId}
         ORDER BY createDate DESC, reserveStart
-            LIMIT 1
+        LIMIT 1
     </select>
 
     <select id="getReservationId" resultType="int">
@@ -85,7 +85,16 @@
         FROM reservation
         WHERE userId = #{userId} AND reserveDate = #{reserveDate} AND reserveStart = #{reserveStart}
         ORDER BY createDate DESC
-            LIMIT 1
+        LIMIT 1
     </select>
+
+    <!-- 예약 거절 쿼리 추가 -->
+    <update id="rejectReservation" parameterType="map">
+        UPDATE reservation
+        SET status = 'R',
+        cancleReasonId = #{rejectReasonId}
+        WHERE reservationId = #{reservationId}
+        AND status = 'A'
+    </update>
 
 </mapper>

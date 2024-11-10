@@ -20,6 +20,7 @@ public interface ReservationService {
     List<ReservationDto.ManagerReservationResponseDto> getBeforeReservation(String userName);
     List<ReservationDto.ManagerReservationResponseDto> getIngReservation(String userName);
 
+    Boolean rejectReservation(ReservationDto.RejectReservationRequestDto requestDto, String userName);
     Boolean changeConfirmReservation(ReservationDto.ConfAndFinReservationRequestDto requestDto, String userName);
     Boolean changeCancelReservation(ReservationDto.CancelReservationRequestDto requestDto, String userName);
     Boolean changeFinishReservation(ReservationDto.ConfAndFinReservationRequestDto requestDto, String userName);

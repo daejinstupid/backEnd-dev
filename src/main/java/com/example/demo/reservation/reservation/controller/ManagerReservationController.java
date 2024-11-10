@@ -69,6 +69,22 @@ public class ManagerReservationController {
 
     }
 
+    // 예약 전 거절 (reject)
+    @PatchMapping("/reject")
+    public ResponseEntity<ApiResponse<Boolean>> rejectReservation(
+            @RequestBody ReservationDto.RejectReservationRequestDto rejectReservationRequestDto,
+            Authentication authentication) {
+
+        log.info("예약 거절 시작");
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String userName = userDetails.getUsername();
+
+        Boolean isRejected = reservationService.rejectReservation(rejectReservationRequestDto, userName);
+        return ResponseEntity.ok().body(ApiResponse.createSuccess(isRejected, CustomResponseCode.SUCCESS));
+    }
+
+
     @PatchMapping("/cancel")
     public ResponseEntity<ApiResponse<Boolean>> cancelReservation(@RequestBody ReservationDto.CancelReservationRequestDto cancelReservationRequestDto, Authentication authentication) {
         log.info("예약 취소 시작");

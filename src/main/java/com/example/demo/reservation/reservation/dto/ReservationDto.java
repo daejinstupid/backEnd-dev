@@ -17,7 +17,7 @@ public class ReservationDto {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class UserReservationRequestDto{
+    public static class UserReservationRequestDto {
         private int tableId;
         private List<Reservation.TimeSlot> reserveTime;
         private int personCnt;
@@ -26,42 +26,53 @@ public class ReservationDto {
 
     @Data
     @NoArgsConstructor
-    public static class UserReservationResponseDto{
+    public static class UserReservationResponseDto {
         private List<Integer> reservationIds;
 
-        public UserReservationResponseDto(List<Integer> reservationIds){
+        public UserReservationResponseDto(List<Integer> reservationIds) {
             this.reservationIds = reservationIds;
         }
     }
 
     @Data
+    public static class RejectReservationRequestDto {
+        private List<Integer> reservationIds;
+        private String rejectReasonId; // 거절 사유 ID
+    }
+
+    // Remove duplicate CancelReservationRequestDto
+    @Data
+    public static class CancelReservationRequestDto {
+        private List<Integer> reservationIds;
+        private String cancelReasonId;
+    }
+
+    @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class RevCafeInfoResponseDto{
+    public static class RevCafeInfoResponseDto {
         private String cafeName;
         private Map<String, List<CafeTableDto.CafeTableInfoResponseDto>> tableInfo;
         private String studyImg;
         private String studyImgMine;
-
     }
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class TimeSlotResponseDto{
+    public static class TimeSlotResponseDto {
         private String reserveStart;
         private String reserveEnd;
         private String available;
-
     }
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class ManagerReservationResponseDto{
+    public static class ManagerReservationResponseDto {
         private List<Integer> reservationIds;
         private String userRealName;
         private String tableNumber;
@@ -74,7 +85,7 @@ public class ReservationDto {
     }
 
     @Data
-    public static class ConfAndFinReservationRequestDto{
+    public static class ConfAndFinReservationRequestDto {
         private List<Integer> reservationIds;
     }
 
@@ -89,7 +100,7 @@ public class ReservationDto {
         private String state;
         private String cafeRepImg;
 
-        public UserReadFinishReservResponseDto(Reservation reservation, List<Integer> reservationIds, String tableNumber,String cafeName, String cafeRepImg) {
+        public UserReadFinishReservResponseDto(Reservation reservation, List<Integer> reservationIds, String tableNumber, String cafeName, String cafeRepImg) {
             this.reservationIds = reservationIds;
             this.cafeName = cafeName;
             this.tableNumber = tableNumber;
@@ -102,16 +113,10 @@ public class ReservationDto {
     }
 
     @Data
-    public static class CancelReservationRequestDto {
-        private List<Integer> reservationIds;
-        private String cancelReasonId;
-    }
-
-    @Data
     @NoArgsConstructor
     @Builder
-    public static class  UserReservationStatusResponseDto{
-        private  String userRealName;
+    public static class UserReservationStatusResponseDto {
+        private String userRealName;
         private String status;
         private int reservationId;
 
@@ -120,8 +125,8 @@ public class ReservationDto {
             this.status = status;
             this.reservationId = reservationId;
         }
-
     }
+
     @Data
     @NoArgsConstructor
     @Builder
@@ -130,6 +135,7 @@ public class ReservationDto {
         private String cancelContent;
         private String cafeTel;
         private String userRealName;
+
         public CancelReasonResponDto(int reservationId, String cancelContent, String cafeTel, String userRealName) {
             this.reservationId = reservationId;
             this.cancelContent = cancelContent;
@@ -137,5 +143,4 @@ public class ReservationDto {
             this.userRealName = userRealName;
         }
     }
-
 }
