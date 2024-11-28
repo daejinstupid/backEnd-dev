@@ -394,7 +394,6 @@ public class ReservationServiceImpl implements ReservationService {
         }
         Cafe cafe = cafeMapper.getOneCafeByUserId(user.getUserId());
         List<Reservation> reservations = reservationMapper.getFinReservations(user.getUserId());
-
         return combinedTimeFinishReservations(reservations);
     }
 
@@ -409,6 +408,61 @@ public class ReservationServiceImpl implements ReservationService {
 
         return combinedTimeFinishReservations(reservations);
 
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveReview(ReservationDto.ReviewRequestDto reviewRequestDto, String userName) {
+        log.info("리뷰 저장 처리 시작: {}", reviewRequestDto);
+
+        // 예약 ID로 예약 조회
+        Reservation reservation = reservationMapper.getRevByRevId(reviewRequestDto.getReservationId());
+        if (reservation == null) {
+            throw new GeneralException(CustomResponseCode.NO_RESERVATION); // 예약이 없을 때 예외 처리
+        }
+
+        // 유저 검증
+        Users user = usersMapper.getOneUsers(userName);
+        if (user == null) {
+            throw new GeneralException(CustomResponseCode.USER_NOT_FOUND); // 유저가 없을 때 예외 처리
+        }
+
+        if (reservation.getUserId() != user.getUserId()) {
+            throw new SecurityException("리뷰 작성 권한이 없습니다.");
+        }
+
+        // 리뷰와 별점 저장
+        reservation.setReviewText(reviewRequestDto.getReviewText());
+        reservation.setRating(reviewRequestDto.getRating());
+
+        // 저장
+        try {
+            reservationMapper.updateReservation(reservation); // 리뷰와 별점 업데이트
+            log.info("리뷰 저장 완료: {}", reservation);
+        } catch (Exception e) {
+            log.error("리뷰 저장 중 오류 발생: {}", e.getMessage(), e);
+            throw new GeneralException(CustomResponseCode.REVIEW_SAVE_FAILED);
+        }
+    }
+
+    @Override
+    public List<ReservationDto.CafeReviewResponseDto> getReviewsByCafeId(int cafeId) {
+        List<Reservation> reviews = reservationMapper.getReviewsByCafeId(cafeId);
+        log.info("!!!!!!!!!!!!!!!! : " + reviews);
+
+        // DTO로 변환
+        List<ReservationDto.CafeReviewResponseDto> reviewDtos = new ArrayList<>();
+        for (Reservation review : reviews) {
+            ReservationDto.CafeReviewResponseDto reviewDto = ReservationDto.CafeReviewResponseDto.builder()
+                    .userRealName(review.getUserRealName())
+                    .reviewText(review.getReviewText())
+                    .rating(review.getRating())
+                    .reviewDate(String.valueOf(review.getModifyDate()))
+                    .build();
+            reviewDtos.add(reviewDto);
+        }
+
+        return reviewDtos;
     }
 
     /**

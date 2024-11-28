@@ -31,4 +31,9 @@ public interface ReservationMapper {
     Reservation getReservationRecent(int userId);
 
     int getReservationId(int userId, String reserveDate, String reserveStart);
+
+    // 리뷰 저장 메서드 추가
+    void updateReservation(Reservation reservation);
+
+    List<Reservation> getReviewsByCafeId(int cafeId);
 }

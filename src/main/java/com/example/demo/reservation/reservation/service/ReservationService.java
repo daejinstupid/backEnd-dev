@@ -28,4 +28,7 @@ public interface ReservationService {
     List<ReservationDto.UserReadFinishReservResponseDto> finishReservations(String userName);
     List<ReservationDto.UserReadFinishReservResponseDto> proceedReservations(String userName);
 
+    void saveReview(ReservationDto.ReviewRequestDto reviewRequestDto, String userName);
+
+    List<ReservationDto.CafeReviewResponseDto> getReviewsByCafeId(int cafeId);
 }

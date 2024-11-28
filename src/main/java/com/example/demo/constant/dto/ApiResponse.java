@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@JsonPropertyOrder({"isSuccess","code","message","data"})
+@JsonPropertyOrder({"isSuccess", "code", "message", "data"})
 public class ApiResponse<T> {
 
     @JsonProperty("isSuccess")
@@ -23,16 +23,20 @@ public class ApiResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
-    public static ApiResponse<String> createSuccessWithNoContent(CustomResponseCode code){
+    public static ApiResponse<String> createSuccessWithNoContent(CustomResponseCode code) {
         return new ApiResponse<>(true, code.getCode(), code.getMessage(), null);
     }
 
-    public static <T> ApiResponse<T> createSuccess(T data, CustomResponseCode code){
+    public static <T> ApiResponse<T> createSuccess(T data, CustomResponseCode code) {
         return new ApiResponse<>(true, code.getCode(), code.getMessage(), data);
     }
 
-    public static ApiResponse<String> createError(CustomResponseCode code){
-        return new ApiResponse<>(code.isSuccess(), code.getCode(), code.getMessage(),null);
+    public static ApiResponse<String> createError(CustomResponseCode code) {
+        return new ApiResponse<>(code.isSuccess(), code.getCode(), code.getMessage(), null);
     }
 
+    // 추가된 createFailure 메서드
+    public static ApiResponse<String> createFailure(String message, CustomResponseCode code) {
+        return new ApiResponse<>(false, code.getCode(), message, null);
+    }
 }

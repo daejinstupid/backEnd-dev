@@ -2,17 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.reservation.reservation.mapper.ReservationMapper">
 
+    <!-- 예약 생성 -->
     <insert id="createReservation" parameterType="reservation">
         INSERT INTO reservation (tableId, cafeId, userId, reserveStart, reserveEnd, personCnt, status, reserveDate, createDate)
         VALUES (#{tableId}, #{cafeId}, #{userId}, #{reserveStart}, #{reserveEnd}, #{personCnt}, #{status}, #{reserveDate}, now())
     </insert>
 
+    <!-- 특정 테이블의 예약 조회 -->
     <select id="getOneTableRev" resultType="reservation">
         SELECT *
         FROM reservation
         WHERE reserveDate = #{reserveDate} AND tableId = #{tableId} AND status IN ('A','P','F')
     </select>
 
+    <!-- 특정 카페의 하루 예약 조회 -->
     <select id="getOneCafeOneDayRev" resultType="reservation">
         SELECT *
         FROM reservation
@@ -20,6 +23,7 @@
         ORDER BY userId, tableId, reserveStart
     </select>
 
+    <!-- 특정 카페의 예약 상태가 "A"인 예약 조회 -->
     <select id="getOneCafeBeforeRev" resultType="reservation">
         SELECT *
         FROM reservation
@@ -27,6 +31,7 @@
         ORDER BY createDate DESC, userId, tableId, reserveStart
     </select>
 
+    <!-- 특정 카페의 진행 중(P 상태) 예약 조회 -->
     <select id="getOneCafeIngRev" resultType="reservation">
         SELECT *
         FROM reservation
@@ -34,30 +39,35 @@
         ORDER BY reserveDate, userId, tableId, reserveStart
     </select>
 
+    <!-- 예약 상태를 진행 중(P)으로 업데이트 -->
     <update id="cofirmReservation" parameterType="int">
         UPDATE reservation
         SET status = 'P', modifyDate = now()
         WHERE reservationId = #{reservationId}
     </update>
 
+    <!-- 예약 ID로 예약 정보 조회 -->
     <select id="getRevByRevId" resultType="reservation">
         SELECT *
         FROM reservation
         WHERE reservationId = #{reservationId}
     </select>
 
+    <!-- 예약 상태를 취소(N)로 업데이트 -->
     <update id="cancelReservation">
         UPDATE reservation
         SET status = 'N', cancelReasonId = #{cancelReasonId}, modifyDate = now()
         WHERE reservationId = #{reservationId}
     </update>
 
+    <!-- 예약 상태를 완료(F)로 업데이트 -->
     <update id="finishReservation">
         UPDATE reservation
         SET status = 'F', modifyDate = now()
         WHERE reservationId = #{reservationId}
     </update>
 
+    <!-- 사용자의 완료된(N, F 상태) 예약 조회 -->
     <select id="getFinReservations" resultType="reservation">
         SELECT *
         FROM reservation
@@ -65,6 +75,7 @@
         ORDER BY createDate DESC, reserveStart
     </select>
 
+    <!-- 사용자의 진행 중(A, P 상태) 예약 조회 -->
     <select id="getProceedReservations" resultType="reservation">
         SELECT *
         FROM reservation
@@ -72,6 +83,7 @@
         ORDER BY createDate DESC, reserveStart
     </select>
 
+    <!-- 사용자의 가장 최근 예약 조회 -->
     <select id="getReservationRecent" resultType="reservation">
         SELECT *
         FROM reservation
@@ -80,6 +92,7 @@
         LIMIT 1
     </select>
 
+    <!-- 예약 ID 조회 -->
     <select id="getReservationId" resultType="int">
         SELECT reservationId
         FROM reservation
@@ -88,7 +101,7 @@
         LIMIT 1
     </select>
 
-    <!-- 예약 거절 쿼리 추가 -->
+    <!-- 예약 거절(R 상태로 업데이트) -->
     <update id="rejectReservation" parameterType="map">
         UPDATE reservation
         SET status = 'R',
@@ -96,5 +109,35 @@
         WHERE reservationId = #{reservationId}
         AND status = 'A'
     </update>
+
+    <!-- 리뷰와 별점 업데이트 -->
+    <update id="updateReservation" parameterType="reservation">
+        UPDATE reservation
+        SET
+        reviewText = #{reviewText},
+        rating = #{rating},
+        modifyDate = now()
+        WHERE
+        reservationId = #{reservationId};
+    </update>
+
+    <!-- 특정 카페의 리뷰 조회 -->
+    <select id="getReviewsByCafeId" resultType="reservation">
+        SELECT
+        r.*,
+        u.userRealName
+        FROM
+        reservation r
+        JOIN
+        users u
+        ON
+        r.userId = u.userId
+        WHERE
+        r.cafeId = #{cafeId}
+        AND
+        r.reviewText IS NOT NULL
+        ORDER BY
+        r.modifyDate DESC;
+    </select>
 
 </mapper>

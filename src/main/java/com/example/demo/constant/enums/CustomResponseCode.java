@@ -47,7 +47,8 @@ public enum CustomResponseCode {
     REJECT_RESERVATION_FAILED(false, 5007, "예약 거절 실패"),
 
     // 예약이 이미 확정된 경우 추가
-    RESERVATION_ALREADY_CONFIRMED(false, 6001, "이미 확정된 예약입니다.");
+    RESERVATION_ALREADY_CONFIRMED(false, 6001, "이미 확정된 예약입니다."),
+    REVIEW_SAVE_FAILED(false, 6002, "리뷰 저장 실패");
 
     private final boolean isSuccess;
     private final int code;

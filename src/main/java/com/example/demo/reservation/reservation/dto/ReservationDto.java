@@ -2,13 +2,11 @@ package com.example.demo.reservation.reservation.dto;
 
 import com.example.demo.cafeTable.dto.CafeTableDto;
 import com.example.demo.reservation.reservation.entity.Reservation;
-import com.example.demo.userss.entity.Users;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,10 +35,9 @@ public class ReservationDto {
     @Data
     public static class RejectReservationRequestDto {
         private List<Integer> reservationIds;
-        private String rejectReasonId; // 거절 사유 ID
+        private String rejectReasonId;
     }
 
-    // Remove duplicate CancelReservationRequestDto
     @Data
     public static class CancelReservationRequestDto {
         private List<Integer> reservationIds;
@@ -90,6 +87,9 @@ public class ReservationDto {
     }
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class UserReadFinishReservResponseDto {
         private List<Integer> reservationIds;
         private String cafeName;
@@ -99,6 +99,8 @@ public class ReservationDto {
         private String reserveDate;
         private String state;
         private String cafeRepImg;
+        private String reviewText;
+        private Integer rating;
 
         public UserReadFinishReservResponseDto(Reservation reservation, List<Integer> reservationIds, String tableNumber, String cafeName, String cafeRepImg) {
             this.reservationIds = reservationIds;
@@ -109,6 +111,8 @@ public class ReservationDto {
             this.reserveDate = reservation.getReserveDate();
             this.state = reservation.getStatus();
             this.cafeRepImg = cafeRepImg;
+            this.reviewText = reservation.getReviewText();
+            this.rating = reservation.getRating();
         }
     }
 
@@ -142,5 +146,37 @@ public class ReservationDto {
             this.cafeTel = cafeTel;
             this.userRealName = userRealName;
         }
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class ReviewRequestDto {
+        private int reservationId;
+        private String reviewText;
+        private Integer rating;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class ReviewResponseDto {
+        private int reservationId;
+        private String reviewText;
+        private Integer rating;
+    }
+
+    // 추가된 DTO: 특정 카페의 리뷰 목록을 반환하기 위한 DTO
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class CafeReviewResponseDto {
+        private String userRealName; // 리뷰를 작성한 사용자 이름
+        private String reviewText;  // 리뷰 내용
+        private Integer rating;     // 별점
+        private String reviewDate;  // 리뷰 작성 날짜
     }
 }
